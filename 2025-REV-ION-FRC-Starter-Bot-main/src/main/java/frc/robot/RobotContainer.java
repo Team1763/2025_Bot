@@ -4,29 +4,32 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
+//import edu.wpi.first.math.MathUtil;
+//import edu.wpi.first.math.controller.PIDController;
+//import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+//import edu.wpi.first.math.geometry.Rotation2d;
+//import edu.wpi.first.math.geometry.Translation2d;
+//import edu.wpi.first.math.trajectory.Trajectory;
+//import edu.wpi.first.math.trajectory.TrajectoryConfig;
+//import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.Command;
+//import edu.wpi.first.wpilibj2.command.Command;
+//import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+//import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+//import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.DriveConstants;
+//import frc.robot.Constants.AutoConstants;
+//import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.AlgaeSubsystem;
 import frc.robot.subsystems.CoralSubsystem;
-import frc.robot.subsystems.CoralSubsystem.Setpoint;
+//import frc.robot.subsystems.CoralSubsystem.Setpoint;
 import frc.robot.subsystems.DriveSubsystem;
-import java.util.List;
+//import java.util.List;
+import frc.utils.GamepadUtils;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -41,19 +44,22 @@ public class RobotContainer {
   private final AlgaeSubsystem m_algaeSubsystem = new AlgaeSubsystem();
 
   // The driver's controller
-  CommandXboxController m_driverController =
-      new CommandXboxController(OIConstants.kDriverControllerPort);
+  //CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort); // Default Xbox Controller
+    // Current system controller
+  Joystick m_driverController = new Joystick(OIConstants.kDriverControllerPort);
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    m_robotDrive.resetOdometry(new Pose2d()); // from old system
 
     // Configure default commands
     m_robotDrive.setDefaultCommand(
         // The left stick controls translation of the robot.
         // Turning is controlled by the X axis of the right stick.
-        new RunCommand(
+        /*new RunCommand(
             () ->
                 m_robotDrive.drive(
                     -MathUtil.applyDeadband(
@@ -63,6 +69,19 @@ public class RobotContainer {
                     -MathUtil.applyDeadband(
                         m_driverController.getRightX(), OIConstants.kDriveDeadband),
                     true),
+            m_robotDrive));*/ // default Xbox controller
+
+            new RunCommand(
+            () ->
+                m_robotDrive.drive(
+                    -GamepadUtils.squareInput(
+                        m_driverController.getY(), OIConstants.kDriveDeadband) * -((m_driverController.getThrottle() - 1) / 2),
+                    -GamepadUtils.squareInput(
+                        m_driverController.getX(), OIConstants.kDriveDeadband) * -((m_driverController.getThrottle() - 1) / 2),
+                    -GamepadUtils.squareInput(
+                        m_driverController.getZ(), OIConstants.kDriveDeadband) * -((m_driverController.getThrottle() - 1) / 2),
+                    true,
+                    false),
             m_robotDrive));
 
     // Set the ball intake to in/out when not running based on internal state
@@ -77,7 +96,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Left Stick Button -> Set swerve to X
-    m_driverController.leftStick().whileTrue(m_robotDrive.setXCommand());
+    /*m_driverController.leftStick().whileTrue(m_robotDrive.setXCommand());
 
     // Left Bumper -> Run tube intake
     m_driverController.leftBumper().whileTrue(m_coralSubSystem.runIntakeCommand());
@@ -114,7 +133,11 @@ public class RobotContainer {
         .whileTrue(m_algaeSubsystem.reverseIntakeCommand());
 
     // Start Button -> Zero swerve heading
-    m_driverController.start().onTrue(m_robotDrive.zeroHeadingCommand());
+    m_driverController.start().onTrue(m_robotDrive.zeroHeadingCommand());*/
+
+    new JoystickButton(m_driverController, XboxController.Button.kLeftStick.value)
+    .whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
+    
   }
 
   public double getSimulationTotalCurrentDraw() {
@@ -128,7 +151,7 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
+  /*public Command getAutonomousCommand() {
     // Create config for trajectory
     TrajectoryConfig config =
         new TrajectoryConfig(
@@ -171,5 +194,5 @@ public class RobotContainer {
 
     // Run path following command, then stop at the end.
     return swerveControllerCommand.andThen(() -> m_robotDrive.drive(0, 0, 0, false));
-  }
+  }*/
 }
