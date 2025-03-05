@@ -26,7 +26,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.AlgaeSubsystem;
 import frc.robot.subsystems.CoralSubsystem;
-//import frc.robot.subsystems.CoralSubsystem.Setpoint;
+import frc.robot.subsystems.CoralSubsystem.Setpoint;
 import frc.robot.subsystems.DriveSubsystem;
 //import java.util.List;
 import frc.utils.GamepadUtils;
@@ -43,8 +43,6 @@ public class RobotContainer {
   private final CoralSubsystem m_coralSubSystem = new CoralSubsystem();
   private final AlgaeSubsystem m_algaeSubsystem = new AlgaeSubsystem();
 
-  // The driver's controller
-  //CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort); // Default Xbox Controller
     // Current system controller
   Joystick m_driverController = new Joystick(OIConstants.kDriverControllerPort);
 
@@ -57,20 +55,6 @@ public class RobotContainer {
 
     // Configure default commands
     m_robotDrive.setDefaultCommand(
-        // The left stick controls translation of the robot.
-        // Turning is controlled by the X axis of the right stick.
-        /*new RunCommand(
-            () ->
-                m_robotDrive.drive(
-                    -MathUtil.applyDeadband(
-                        m_driverController.getLeftY(), OIConstants.kDriveDeadband),
-                    -MathUtil.applyDeadband(
-                        m_driverController.getLeftX(), OIConstants.kDriveDeadband),
-                    -MathUtil.applyDeadband(
-                        m_driverController.getRightX(), OIConstants.kDriveDeadband),
-                    true),
-            m_robotDrive));*/ // default Xbox controller
-
             new RunCommand(
             () ->
                 m_robotDrive.drive(
@@ -95,49 +79,47 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    // Left Stick Button -> Set swerve to X
-    /*m_driverController.leftStick().whileTrue(m_robotDrive.setXCommand());
+    // Set swerve to X
+    new JoystickButton(m_driverController, 10)
+        .whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
 
-    // Left Bumper -> Run tube intake
-    m_driverController.leftBumper().whileTrue(m_coralSubSystem.runIntakeCommand());
+    // Run tube intake
+    new JoystickButton(m_driverController, 1)
+        .whileTrue(new RunCommand(() -> m_coralSubSystem.runIntakeCommand(), m_robotDrive));
 
-    // Right Bumper -> Run tube intake in reverse
-    m_driverController.rightBumper().whileTrue(m_coralSubSystem.reverseIntakeCommand());
+    // Run tube intake in reverse
+    new JoystickButton(m_driverController, 2)
+        .whileTrue(new RunCommand(() -> m_coralSubSystem.reverseIntakeCommand(), m_robotDrive));
 
-    // B Button -> Elevator/Arm to human player position, set ball intake to stow
-    // when idle
-    m_driverController
-        .b()
-        .onTrue(
-            m_coralSubSystem
-                .setSetpointCommand(Setpoint.kFeederStation)
-                .alongWith(m_algaeSubsystem.stowCommand()));
+    // Elevator/Arm to human player position, set ball intake to stow when idle
+    new JoystickButton(m_driverController, 11)
+        .whileTrue(new RunCommand(() -> m_coralSubSystem
+        .setSetpointCommand(Setpoint.kFeederStation)
+        .alongWith(m_algaeSubsystem.stowCommand()), m_robotDrive));
 
-    // A Button -> Elevator/Arm to level 2 position
-    m_driverController.a().onTrue(m_coralSubSystem.setSetpointCommand(Setpoint.kLevel2));
+    // Elevator/Arm to level 2 position
+    new JoystickButton(m_driverController, 14)
+        .whileTrue(new RunCommand(() -> m_coralSubSystem.setSetpointCommand(Setpoint.kLevel2), m_robotDrive));
 
-    // X Button -> Elevator/Arm to level 3 position
-    m_driverController.x().onTrue(m_coralSubSystem.setSetpointCommand(Setpoint.kLevel3));
+    // Elevator/Arm to level 3 position
+    new JoystickButton(m_driverController, 15)
+        .whileTrue(new RunCommand(() -> m_coralSubSystem.setSetpointCommand(Setpoint.kLevel3), m_robotDrive));
 
-    // Y Button -> Elevator/Arm to level 4 position
-    m_driverController.y().onTrue(m_coralSubSystem.setSetpointCommand(Setpoint.kLevel4));
+    // Elevator/Arm to level 4 position
+    new JoystickButton(m_driverController, 16)
+        .whileTrue(new RunCommand(() -> m_coralSubSystem.setSetpointCommand(Setpoint.kLevel4), m_robotDrive));
 
-    // Right Trigger -> Run ball intake, set to leave out when idle
-    m_driverController
-        .rightTrigger(OIConstants.kTriggerButtonThreshold)
-        .whileTrue(m_algaeSubsystem.runIntakeCommand());
+    // Run ball intake, set to leave out when idle
+    new JoystickButton(m_driverController, 3)
+        .whileTrue(new RunCommand(() -> m_algaeSubsystem.runIntakeCommand(), m_robotDrive));
 
-    // Left Trigger -> Run ball intake in reverse, set to stow when idle
-    m_driverController
-        .leftTrigger(OIConstants.kTriggerButtonThreshold)
-        .whileTrue(m_algaeSubsystem.reverseIntakeCommand());
+    // Run ball intake in reverse, set to stow when idle
+    new JoystickButton(m_driverController, 3)
+        .whileTrue(new RunCommand(() -> m_algaeSubsystem.reverseIntakeCommand(), m_robotDrive));
 
-    // Start Button -> Zero swerve heading
-    m_driverController.start().onTrue(m_robotDrive.zeroHeadingCommand());*/
-
-    new JoystickButton(m_driverController, XboxController.Button.kLeftStick.value)
-    .whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
-    
+    // Zero swerve heading
+    new JoystickButton(m_driverController, 7)
+    .whileTrue(new RunCommand(() -> m_robotDrive.zeroHeadingCommand(), m_robotDrive));   
   }
 
   public double getSimulationTotalCurrentDraw() {
