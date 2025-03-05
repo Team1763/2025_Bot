@@ -54,6 +54,7 @@ public class RobotContainer {
     m_robotDrive.resetOdometry(new Pose2d()); // from old system
 
     // Configure default commands
+    // Throttle should be connected to the joystick slider - higher value more speed. It should affect all axis
     m_robotDrive.setDefaultCommand(
             new RunCommand(
             () ->
@@ -79,26 +80,27 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    // Set swerve to X
+    // Below are the various buttons for the joystick, change the button number to adjust which button it is connected to
+    // Set swerve to X formation
     new JoystickButton(m_driverController, 10)
         .whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
 
     // Run tube intake
-    new JoystickButton(m_driverController, 1)
+    new JoystickButton(m_driverController, 1) // button 1 should be trigger
         .whileTrue(new RunCommand(() -> m_coralSubSystem.runIntakeCommand(), m_robotDrive));
 
     // Run tube intake in reverse
-    new JoystickButton(m_driverController, 2)
+    new JoystickButton(m_driverController, 2) // button 2 should be button on top back of joystick
         .whileTrue(new RunCommand(() -> m_coralSubSystem.reverseIntakeCommand(), m_robotDrive));
 
     // Elevator/Arm to human player position, set ball intake to stow when idle
-    new JoystickButton(m_driverController, 11)
+    new JoystickButton(m_driverController, 11) // 11 should be a button on the left side of the joystick, the top left button
         .whileTrue(new RunCommand(() -> m_coralSubSystem
         .setSetpointCommand(Setpoint.kFeederStation)
         .alongWith(m_algaeSubsystem.stowCommand()), m_robotDrive));
 
     // Elevator/Arm to level 2 position
-    new JoystickButton(m_driverController, 14)
+    new JoystickButton(m_driverController, 14) // 14, 15, 16 should hopefully be the bottom row of buttons on the right side
         .whileTrue(new RunCommand(() -> m_coralSubSystem.setSetpointCommand(Setpoint.kLevel2), m_robotDrive));
 
     // Elevator/Arm to level 3 position
@@ -110,15 +112,15 @@ public class RobotContainer {
         .whileTrue(new RunCommand(() -> m_coralSubSystem.setSetpointCommand(Setpoint.kLevel4), m_robotDrive));
 
     // Run ball intake, set to leave out when idle
-    new JoystickButton(m_driverController, 3)
+    new JoystickButton(m_driverController, 3) // button 3 should be top left on joystick
         .whileTrue(new RunCommand(() -> m_algaeSubsystem.runIntakeCommand(), m_robotDrive));
 
     // Run ball intake in reverse, set to stow when idle
-    new JoystickButton(m_driverController, 3)
+    new JoystickButton(m_driverController, 4) // 4 should be top right on joystick
         .whileTrue(new RunCommand(() -> m_algaeSubsystem.reverseIntakeCommand(), m_robotDrive));
 
     // Zero swerve heading
-    new JoystickButton(m_driverController, 7)
+    new JoystickButton(m_driverController, 7) // 7 should be on the left side of the joystick
     .whileTrue(new RunCommand(() -> m_robotDrive.zeroHeadingCommand(), m_robotDrive));   
   }
 
