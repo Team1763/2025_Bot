@@ -157,6 +157,7 @@ public class CoralSubsystem extends SubsystemBase {
    * position control which will allow for a smooth acceleration and deceleration to the mechanisms'
    * setpoints.
    */
+
   private void moveToSetpoint() {
     armController.setReference(armCurrentTarget, ControlType.kMAXMotionPositionControl);
     elevatorClosedLoopController.setReference(
@@ -231,7 +232,7 @@ public class CoralSubsystem extends SubsystemBase {
    */
   public Command runIntakeCommand() {
     return this.startEnd(
-        () -> this.setIntakePower(IntakeSetpoints.kForward), () -> this.setIntakePower(0.0));
+        () -> this.setIntakePower(IntakeSetpoints.kForward), () -> this.setIntakePower(.5));
   }
 
   /**
@@ -240,7 +241,7 @@ public class CoralSubsystem extends SubsystemBase {
    */
   public Command reverseIntakeCommand() {
     return this.startEnd(
-        () -> this.setIntakePower(IntakeSetpoints.kReverse), () -> this.setIntakePower(0.0));
+        () -> this.setIntakePower(IntakeSetpoints.kReverse), () -> this.setIntakePower(3.0));
   }
 
   @Override

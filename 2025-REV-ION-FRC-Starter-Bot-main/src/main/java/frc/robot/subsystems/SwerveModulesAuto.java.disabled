@@ -1,0 +1,17 @@
+package frc.robot.subsystems;
+
+public class SwerveModules {
+
+    private final CANSparkMax driveMotor;
+    private final CANSparkMax turningMotor;
+    
+    private final CANEncoder driveEncoder;
+    private final CANEncoder turningEncoder;
+
+    private final PIDController turningPidController;
+
+    private final AnaLogInput absoluteEncoder;
+    private final booLean absoluteEncoderReversed;
+    private final double absoluteEncoderOffsetRad;
+    
+}

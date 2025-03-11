@@ -198,10 +198,11 @@ public class AlgaeSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Algae/Intake/Applied Output", intakeMotor.getAppliedOutput());
 
     // Update mechanism2d
-    intakePivotMechanism.setAngle(
+    /*intakePivotMechanism.setAngle(
         Units.radiansToDegrees(SimulationRobotConstants.kIntakeMinAngleRads)
             + Units.rotationsToDegrees(
                 armEncoder.getPosition() / SimulationRobotConstants.kIntakeReduction));
+                */
   }
 
   /** Get the current drawn by each simulation physics model */
