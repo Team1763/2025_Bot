@@ -20,7 +20,7 @@ import edu.wpi.first.math.util.Units;
 public final class Constants {
 
   public static final class CoralSubsystemConstants {
-    public static final int kElevatorMotorCanId = 18;
+    public static final int kElevatorMotorCanId = 12;
     public static final int kArmMotorCanId = 11;
     public static final int kIntakeMotorCanId = 22;
 
@@ -28,21 +28,21 @@ public final class Constants {
       public static final int kFeederStation = 0;
       public static final int kLevel1 = 0;
       public static final int kLevel2 = 0;
-      public static final int kLevel3 = 100;
-      public static final int kLevel4 = 150;
+      public static final int kLevel3 = 115;
+      public static final int kLevel4 = 0;
     }
 
     public static final class ArmSetpoints {
-      public static final double kFeederStation = 12; // Adjusts arm angle
+      public static final double kFeederStation = -12; // Adjusts arm angle
       public static final double kLevel1 = 0;
-      public static final double kLevel2 = 2;
-      public static final double kLevel3 = 2;
-      public static final double kLevel4 = 19;
+      public static final double kLevel2 = -43;
+      public static final double kLevel3 = -44;
+      public static final double kLevel4 = -5;
     }
 
     public static final class IntakeSetpoints {
-      public static final double kForward = 0.5;
-      public static final double kReverse = -0.5;
+      public static final double kForward = 10;
+      public static final double kReverse = -10;
     }
   }
 
@@ -51,15 +51,15 @@ public final class Constants {
     public static final int kPivotMotorCanId = 14;
 
     public static final class ArmSetpoints {
-      public static final double kStow = -40;
-      public static final double kHold = 20;
-      public static final double kDown = -40;
+      public static final double kStow = -17;
+      public static final double kHold = 0; // button 6 less negative
+      public static final double kDown = -17;
     }
 
     public static final class IntakeSetpoints {
-      public static final double kForward = 0.5;
-      public static final double kReverse = -0.5;
-      public static final double kHold = 0.25;
+      public static final double kForward = 10;
+      public static final double kReverse = -10;
+      public static final double kHold = 5;
     }
   }
 

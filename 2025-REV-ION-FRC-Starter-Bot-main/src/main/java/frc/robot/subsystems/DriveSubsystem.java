@@ -18,6 +18,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
@@ -60,6 +61,8 @@ public class DriveSubsystem extends SubsystemBase {
   private SlewRateLimiter m_magLimiter = new SlewRateLimiter(DriveConstants.kMagnitudeSlewRate);
   private SlewRateLimiter m_rotLimiter = new SlewRateLimiter(DriveConstants.kRotationalSlewRate);
   private double m_prevTime = WPIUtilJNI.now() * 1e-6;
+
+  private boolean invertControls = false;
 
   // Odometry class for tracking robot pose
   SwerveDriveOdometry m_odometry =
@@ -130,6 +133,18 @@ public class DriveSubsystem extends SubsystemBase {
     double ySpeedDelivered = ySpeed * DriveConstants.kMaxSpeedMetersPerSecond;
     double rotDelivered = rot * DriveConstants.kMaxAngularSpeed;
 
+    //if (invertControls)
+    //{
+    //  xSpeedDelivered = -xSpeedDelivered;
+    //  ySpeedDelivered = -ySpeedDelivered;
+    //  rotDelivered = -rotDelivered;
+    //}
+
+    //SmartDashboard.putBoolean("inverControls", invertControls);
+    //SmartDashboard.putNumber("xspeed", xSpeedDelivered);
+    //SmartDashboard.putNumber("yspeed", ySpeedDelivered);
+    //SmartDashboard.putNumber("xspeed", rotDelivered);
+
     var swerveModuleStates =
         DriveConstants.kDriveKinematics.toSwerveModuleStates(
             fieldRelative
@@ -183,6 +198,10 @@ public class DriveSubsystem extends SubsystemBase {
   /** Zeroes the heading of the robot. */
   public Command zeroHeadingCommand() {
     return this.runOnce(() -> m_gyro.reset());
+  }
+
+  public Command invertControlsCommand() {
+    return this.runOnce(() -> {invertControls = !invertControls;});
   }
 
   /**

@@ -34,7 +34,7 @@ import frc.robot.subsystems.CoralSubsystem.Setpoint;
 import frc.robot.subsystems.DriveSubsystem;
 //import java.util.List;
 import frc.utils.GamepadUtils;
-import frc.robot.subsystems.Elevator;
+//import frc.robot.subsystems.Elevator;
 
 
 /*
@@ -48,7 +48,7 @@ public class RobotContainer {
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final CoralSubsystem m_coralSubSystem = new CoralSubsystem();
   private final AlgaeSubsystem m_algaeSubsystem = new AlgaeSubsystem();
-  private final Elevator elevator;
+  //private final Elevator elevator;
 
     // Current system controller
   Joystick m_driverController = new Joystick(OIConstants.kDriverControllerPort);
@@ -59,7 +59,7 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    this.elevator = new Elevator();
+    //this.elevator = new Elevator();
     //configureCommands(); // use button config
 
     m_chooser.setDefaultOption("TestAuto", new TestAuto(m_robotDrive));
@@ -101,51 +101,67 @@ public class RobotContainer {
         .whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
 
     // Run tube intake
-    new JoystickButton(m_driverController, 1) // button 1 should be trigger
-        .whileTrue(new RunCommand(() -> m_coralSubSystem.runIntakeCommand(), m_robotDrive));
+    new JoystickButton(m_driverController, 1)
+        .whileTrue(m_coralSubSystem.runIntakeCommand()); // button 1 should be trigger
+        // .whileTrue(new RunCommand(() -> m_coralSubSystem.runIntakeCommand(), m_robotDrive));
+        
 
     // Run tube intake in reverse
     new JoystickButton(m_driverController, 2) // button 2 should be button on top back of joystick
-        .whileTrue(new RunCommand(() -> m_coralSubSystem.reverseIntakeCommand(), m_robotDrive));
+        .whileTrue(m_coralSubSystem.reverseIntakeCommand());
 
     // Elevator/Arm to human player position, set ball intake to stow when idle
     new JoystickButton(m_driverController, 11) // 11 should be a button on the left side of the joystick, the top left button
-        .whileTrue(new RunCommand(() -> m_coralSubSystem
-        .setSetpointCommand(Setpoint.kFeederStation)
-        .alongWith(m_algaeSubsystem.stowCommand()), m_robotDrive));
+        .whileTrue(m_coralSubSystem
+        .setSetpointCommand(Setpoint.kFeederStation));
+        //.alongWith(m_algaeSubsystem.stowCommand()));
 
     // Elevator/Arm to level 2 position
     new JoystickButton(m_driverController, 14) // 14, 15, 16 should hopefully be the bottom row of buttons on the right side
-        .whileTrue(new RunCommand(() -> m_coralSubSystem.setSetpointCommand(Setpoint.kLevel2), m_robotDrive));
+        .whileTrue(m_coralSubSystem.setSetpointCommand(Setpoint.kLevel2));
 
     // Elevator/Arm to level 3 position
     new JoystickButton(m_driverController, 15)
-        .whileTrue(new RunCommand(() -> m_coralSubSystem.setSetpointCommand(Setpoint.kLevel3), m_robotDrive));
+        .whileTrue(m_coralSubSystem.setSetpointCommand(Setpoint.kLevel3));
 
     // Elevator/Arm to level 4 position
     new JoystickButton(m_driverController, 16)
-        .whileTrue(new RunCommand(() -> m_coralSubSystem.setSetpointCommand(Setpoint.kLevel4), m_robotDrive));
+        .whileTrue(m_coralSubSystem.setSetpointCommand(Setpoint.kLevel4));
 
-    // Run ball intake, set to leave out when idle
-    new JoystickButton(m_driverController, 3) // button 3 should be top left on joystick
-        .whileTrue(new RunCommand(() -> m_algaeSubsystem.runIntakeCommand(), m_robotDrive));
+    // // Run ball intake, set to leave out when idle
+    // new JoystickButton(m_driverController, 5) // button 3 should be top left on joystick
+    //     .whileTrue(m_algaeSubsystem.runIntakeCommand());
 
+    // new JoystickButton(m_driverController, 6) // pulls arm in, no spin
+    //     .whileTrue(m_algaeSubsystem.reverseIntakeCommand());
+        
+    // new JoystickButton(m_driverController, 7) // pushes arm out, no spin
+    //     .whileTrue(m_algaeSubsystem.idleCommand());
+
+    // new JoystickButton(m_driverController, 9)
+    //     .whileTrue(m_algaeSubsystem.stowCommand());
+
+
+    
     // Run ball intake in reverse, set to stow when idle
     new JoystickButton(m_driverController, 4) // 4 should be top right on joystick
         .whileTrue(new RunCommand(() -> m_algaeSubsystem.reverseIntakeCommand(), m_robotDrive));
 
 
         /////// Elevator control
-// Run ball intake in reverse, set to stow when idle
-/*new JoystickButton(m_driverController, 5) // 4 should be top right on joystick
-.whileTrue(new RunCommand(() -> elevator.setMotors(-2), m_robotDrive)); // values were lowered from the one that broke the chain, but the values are unteseted
+    // // Run ball intake in reverse, set to stow when idle
+    // new JoystickButton(m_driverController, 5) // 4 should be top right on joystick
+    // .whileTrue(new RunCommand(() -> elevator.setMotors(-2), m_robotDrive)); // values were lowered from the one that broke the chain, but the values are unteseted
 
-new JoystickButton(m_driverController, 6) // 4 should be top right on joystick
-.whileTrue(new RunCommand(() -> elevator.setMotors(2), m_robotDrive));*/
+    // new JoystickButton(m_driverController, 6) // 4 should be top right on joystick
+    // .whileTrue(new RunCommand(() -> elevator.setMotors(2), m_robotDrive));
 
     // Zero swerve heading
     new JoystickButton(m_driverController, 7) // 7 should be on the left side of the joystick
     .whileTrue(new RunCommand(() -> m_robotDrive.zeroHeadingCommand(), m_robotDrive));   
+
+    //invert controls
+    //new JoystickButton(m_driverController, 7).onTrue(new RunCommand(() -> m_robotDrive.invertControlsCommand(), m_robotDrive)); 
   }
 
   public double getSimulationTotalCurrentDraw() {

@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Configs;
 import frc.robot.Constants.CoralSubsystemConstants;
@@ -232,7 +233,7 @@ public class CoralSubsystem extends SubsystemBase {
    */
   public Command runIntakeCommand() {
     return this.startEnd(
-        () -> this.setIntakePower(IntakeSetpoints.kForward), () -> this.setIntakePower(.5));
+        () -> this.setIntakePower(IntakeSetpoints.kForward), () -> this.setIntakePower(0));
   }
 
   /**
@@ -241,7 +242,7 @@ public class CoralSubsystem extends SubsystemBase {
    */
   public Command reverseIntakeCommand() {
     return this.startEnd(
-        () -> this.setIntakePower(IntakeSetpoints.kReverse), () -> this.setIntakePower(3.0));
+        () -> this.setIntakePower(IntakeSetpoints.kReverse), () -> this.setIntakePower(0));
   }
 
   @Override
