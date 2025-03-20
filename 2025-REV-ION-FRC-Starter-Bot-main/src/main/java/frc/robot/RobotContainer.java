@@ -52,6 +52,7 @@ public class RobotContainer {
 
     // Current system controller
   Joystick m_driverController = new Joystick(OIConstants.kDriverControllerPort);
+  Joystick m_assistController = new Joystick(1);
 
   //Autonomous programs
   private SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -101,31 +102,37 @@ public class RobotContainer {
         .whileTrue(new RunCommand(() -> m_robotDrive.setX(), m_robotDrive));
 
     // Run tube intake
-    new JoystickButton(m_driverController, 1)
+    new JoystickButton(m_assistController, 1)
         .whileTrue(m_coralSubSystem.runIntakeCommand()); // button 1 should be trigger
         // .whileTrue(new RunCommand(() -> m_coralSubSystem.runIntakeCommand(), m_robotDrive));
         
 
     // Run tube intake in reverse
-    new JoystickButton(m_driverController, 2) // button 2 should be button on top back of joystick
+    new JoystickButton(m_assistController, 2) // button 2 should be button on top back of joystick
         .whileTrue(m_coralSubSystem.reverseIntakeCommand());
 
     // Elevator/Arm to human player position, set ball intake to stow when idle
-    new JoystickButton(m_driverController, 11) // 11 should be a button on the left side of the joystick, the top left button
+    new JoystickButton(m_assistController, 11) // 11 should be a button on the left side of the joystick, the top left button
         .whileTrue(m_coralSubSystem
         .setSetpointCommand(Setpoint.kFeederStation));
         //.alongWith(m_algaeSubsystem.stowCommand()));
 
+// Elevator/Arm to level 1 position
+new JoystickButton(m_assistController, 12) // 14, 15, 16 should hopefully be the bottom row of buttons on the right side
+.whileTrue(m_coralSubSystem.setSetpointCommand(Setpoint.kFeederStation));
+        // Elevator/Arm to level 1 position
+    new JoystickButton(m_assistController, 13) // 14, 15, 16 should hopefully be the bottom row of buttons on the right side
+    .whileTrue(m_coralSubSystem.setSetpointCommand(Setpoint.kLevel1));
     // Elevator/Arm to level 2 position
-    new JoystickButton(m_driverController, 14) // 14, 15, 16 should hopefully be the bottom row of buttons on the right side
+    new JoystickButton(m_assistController, 14) // 14, 15, 16 should hopefully be the bottom row of buttons on the right side
         .whileTrue(m_coralSubSystem.setSetpointCommand(Setpoint.kLevel2));
 
     // Elevator/Arm to level 3 position
-    new JoystickButton(m_driverController, 15)
+    new JoystickButton(m_assistController, 15)
         .whileTrue(m_coralSubSystem.setSetpointCommand(Setpoint.kLevel3));
 
     // Elevator/Arm to level 4 position
-    new JoystickButton(m_driverController, 16)
+    new JoystickButton(m_assistController, 16)
         .whileTrue(m_coralSubSystem.setSetpointCommand(Setpoint.kLevel4));
 
     // // Run ball intake, set to leave out when idle
@@ -144,7 +151,7 @@ public class RobotContainer {
 
     
     // Run ball intake in reverse, set to stow when idle
-    new JoystickButton(m_driverController, 4) // 4 should be top right on joystick
+    new JoystickButton(m_assistController, 4) // 4 should be top right on joystick
         .whileTrue(new RunCommand(() -> m_algaeSubsystem.reverseIntakeCommand(), m_robotDrive));
 
 

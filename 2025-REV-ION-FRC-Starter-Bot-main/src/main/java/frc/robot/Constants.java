@@ -27,21 +27,21 @@ public final class Constants {
     public static final class ElevatorSetpoints {
       public static final int kFeederStation = 0;
       public static final int kLevel1 = 0;
-      public static final int kLevel2 = 0;
-      public static final int kLevel3 = 115;
-      public static final int kLevel4 = 0;
+      public static final int kLevel2 = 35;
+      public static final int kLevel3 = 130;
+      public static final int kLevel4 = 170; // about 7 units per inch
     }
 
     public static final class ArmSetpoints {
-      public static final double kFeederStation = -12; // Adjusts arm angle
-      public static final double kLevel1 = 0;
-      public static final double kLevel2 = -43;
-      public static final double kLevel3 = -44;
-      public static final double kLevel4 = -5;
+      public static final double kFeederStation = -35; // Adjusts arm angle
+      public static final double kLevel1 = -5;
+      public static final double kLevel2 = -5;
+      public static final double kLevel3 = -5;
+      public static final double kLevel4 = -8;
     }
 
     public static final class IntakeSetpoints {
-      public static final double kForward = 10;
+      public static final double kForward = 7;
       public static final double kReverse = -10;
     }
   }
