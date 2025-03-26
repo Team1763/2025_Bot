@@ -30,6 +30,7 @@ import frc.robot.Constants.CoralSubsystemConstants.ElevatorSetpoints;
 import frc.robot.Constants.CoralSubsystemConstants.IntakeSetpoints;
 import frc.robot.Constants.SimulationRobotConstants;
 
+
 public class CoralSubsystem extends SubsystemBase {
   /** Subsystem-wide setpoints */
   public enum Setpoint {

@@ -136,7 +136,7 @@ public class AlgaeSubsystem extends SubsystemBase {
         () -> {
           stowWhenIdle = false;
           setIntakePower(AlgaeSubsystemConstants.IntakeSetpoints.kForward);
-          setIntakePosition(AlgaeSubsystemConstants.ArmSetpoints.kDown);
+          setIntakePosition(AlgaeSubsystemConstants.ArmSetpoints.kForward);
         });
   }
 
@@ -149,8 +149,17 @@ public class AlgaeSubsystem extends SubsystemBase {
   public Command reverseIntakeCommand() {
     return this.run(
         () -> {
-          stowWhenIdle = true;
+          stowWhenIdle = false;
           setIntakePower(AlgaeSubsystemConstants.IntakeSetpoints.kReverse);
+          setIntakePosition(AlgaeSubsystemConstants.ArmSetpoints.kReverse);
+        });
+  }
+
+  public Command holdCommand() {
+    return this.run(
+        () -> {
+          stowWhenIdle = false;
+          setIntakePower(AlgaeSubsystemConstants.IntakeSetpoints.kHold);
           setIntakePosition(AlgaeSubsystemConstants.ArmSetpoints.kHold);
         });
   }
@@ -160,6 +169,8 @@ public class AlgaeSubsystem extends SubsystemBase {
     return this.runOnce(
         () -> {
           stowWhenIdle = true;
+          setIntakePower(AlgaeSubsystemConstants.IntakeSetpoints.kStow);
+          setIntakePosition(AlgaeSubsystemConstants.ArmSetpoints.kStow);
         });
   }
 
@@ -176,8 +187,8 @@ public class AlgaeSubsystem extends SubsystemBase {
             setIntakePower(0.0);
             setIntakePosition(AlgaeSubsystemConstants.ArmSetpoints.kStow);
           } else {
-            setIntakePower(AlgaeSubsystemConstants.IntakeSetpoints.kHold);
-            setIntakePosition(AlgaeSubsystemConstants.ArmSetpoints.kHold);
+            setIntakePower(AlgaeSubsystemConstants.IntakeSetpoints.kStow);
+            setIntakePosition(AlgaeSubsystemConstants.ArmSetpoints.kStow);
           }
         });
   }

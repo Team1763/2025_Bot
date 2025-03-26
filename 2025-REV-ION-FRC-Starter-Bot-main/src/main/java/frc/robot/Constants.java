@@ -29,7 +29,7 @@ public final class Constants {
       public static final int kLevel1 = 0;
       public static final int kLevel2 = 35;
       public static final int kLevel3 = 130;
-      public static final int kLevel4 = 170; // about 7 units per inch
+      public static final int kLevel4 = 180; // about 7 units per inch
     }
 
     public static final class ArmSetpoints {
@@ -37,13 +37,18 @@ public final class Constants {
       public static final double kLevel1 = -5;
       public static final double kLevel2 = -5;
       public static final double kLevel3 = -5;
-      public static final double kLevel4 = -8;
+      public static final double kLevel4 = -15;
     }
 
     public static final class IntakeSetpoints {
-      public static final double kForward = 7;
-      public static final double kReverse = -10;
+      public static final double kForward = 0.7; // Shoot Coral (+) power [-1,1]
+      public static final double kReverse = -0.5; // Intake Coral (-) power [-1,1]
     }
+
+    // public static final class IntakePower {
+    //   public static final double kIn = 0.1;
+    //   public static final double kOut = 0.4; 
+    // }
   }
 
   public static final class AlgaeSubsystemConstants {
@@ -51,15 +56,20 @@ public final class Constants {
     public static final int kPivotMotorCanId = 14;
 
     public static final class ArmSetpoints {
-      public static final double kStow = -17;
-      public static final double kHold = 0; // button 6 less negative
-      public static final double kDown = -17;
+      public static final double kStow = 0;
+      public static final double kReverse = -25; // button 6 less negative
+      public static final double kForward = -25;
+      public static final double kHold = -10;
     }
 
-    public static final class IntakeSetpoints {
-      public static final double kForward = 10;
-      public static final double kReverse = -10;
-      public static final double kHold = 5;
+    //*********************************************************** */
+    // Set Algea Intake / Outake Speeds
+    //*********************************************************** */
+    public static final class IntakeSetpoints { 
+      public static final double kForward = 0.9;
+      public static final double kReverse = -0.9;
+      public static final double kHold = 0.3;
+      public static final double kStow = 0.0;
     }
   }
 

@@ -113,8 +113,7 @@ public class RobotContainer {
 
     // Elevator/Arm to human player position, set ball intake to stow when idle
     new JoystickButton(m_assistController, 11) // 11 should be a button on the left side of the joystick, the top left button
-        .whileTrue(m_coralSubSystem
-        .setSetpointCommand(Setpoint.kFeederStation));
+        .whileTrue(m_coralSubSystem.setSetpointCommand(Setpoint.kFeederStation));
         //.alongWith(m_algaeSubsystem.stowCommand()));
 
 // Elevator/Arm to level 1 position
@@ -135,23 +134,28 @@ new JoystickButton(m_assistController, 12) // 14, 15, 16 should hopefully be the
     new JoystickButton(m_assistController, 16)
         .whileTrue(m_coralSubSystem.setSetpointCommand(Setpoint.kLevel4));
 
-    // // Run ball intake, set to leave out when idle
-    // new JoystickButton(m_driverController, 5) // button 3 should be top left on joystick
-    //     .whileTrue(m_algaeSubsystem.runIntakeCommand());
+    // Run ball intake, set to leave out when idle
+    new JoystickButton(m_driverController, 5) // button 3 should be top left on joystick
+        .whileTrue(m_algaeSubsystem.runIntakeCommand());
 
-    // new JoystickButton(m_driverController, 6) // pulls arm in, no spin
-    //     .whileTrue(m_algaeSubsystem.reverseIntakeCommand());
+        new JoystickButton(m_driverController, 6) // button 3 should be top left on joystick
+        .whileTrue(m_algaeSubsystem.holdCommand());
+
+    new JoystickButton(m_driverController, 7) // pulls arm in, getting spin
+        .whileTrue(m_algaeSubsystem.reverseIntakeCommand());
         
-    // new JoystickButton(m_driverController, 7) // pushes arm out, no spin
-    //     .whileTrue(m_algaeSubsystem.idleCommand());
+    // Idle Command to Keep Algea
+    //new JoystickButton(m_driverController, 7) // kept arm pulled in, no spin
+      //  .whileTrue(m_algaeSubsystem.idleCommand());
 
-    // new JoystickButton(m_driverController, 9)
-    //     .whileTrue(m_algaeSubsystem.stowCommand());
+    // Stow Command for No Algea
+    new JoystickButton(m_driverController, 9) // stowWhenIdle = True
+        .whileTrue(m_algaeSubsystem.stowCommand());
 
 
     
     // Run ball intake in reverse, set to stow when idle
-    new JoystickButton(m_assistController, 4) // 4 should be top right on joystick
+    new JoystickButton(m_assistController, 8) // 4 should be top right on joystick
         .whileTrue(new RunCommand(() -> m_algaeSubsystem.reverseIntakeCommand(), m_robotDrive));
 
 
@@ -164,8 +168,9 @@ new JoystickButton(m_assistController, 12) // 14, 15, 16 should hopefully be the
     // .whileTrue(new RunCommand(() -> elevator.setMotors(2), m_robotDrive));
 
     // Zero swerve heading
-    new JoystickButton(m_driverController, 7) // 7 should be on the left side of the joystick
-    .whileTrue(new RunCommand(() -> m_robotDrive.zeroHeadingCommand(), m_robotDrive));   
+    new JoystickButton(m_driverController, 12) // 7 should be on the left side of the joystick
+    .onTrue(m_robotDrive.zeroHeadingCommand());
+    //(new RunCommand(() -> m_robotDrive.zeroHeadingCommand(), m_robotDrive));   
 
     //invert controls
     //new JoystickButton(m_driverController, 7).onTrue(new RunCommand(() -> m_robotDrive.invertControlsCommand(), m_robotDrive)); 
